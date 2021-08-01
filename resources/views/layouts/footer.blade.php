@@ -1,0 +1,30 @@
+<div id="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <h4>My Bunker</h4>
+                <p>
+                    Some Address 987,<br/>
+                    +34 9054 5455, <br/>
+                    Madrid, Spain.
+                </p>
+            </div>
+            
+            <div class="col-lg-4">
+                <h4>My Links</h4>
+                <p>
+                    <a href="#">Dribbble</a><br/>
+                    <a href="#">Twitter</a><br/>
+                    <a href="#">Facebook</a>
+                </p>
+            </div>
+            
+            <div class="col-lg-4">
+                <h4>Track Movie App</h4>
+                <p>This is a movie web app....</p>
+            </div>
+        
+        </div>
+    
+    </div>
+</div>
