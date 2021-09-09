@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Track Movie App'),
+    'name' => env('APP_NAME', 'Movie Recommendation'),
 
     /*
     |--------------------------------------------------------------------------
@@ -165,7 +165,6 @@ return [
         /*
          * Package Service Providers...
          */
-
         /*
          * Application Service Providers...
          */

@@ -9,4 +9,9 @@ class MovieType extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function watchlist()
+    {
+        $this->hasOne(Watchlist::class, 'id');
+    }
 }

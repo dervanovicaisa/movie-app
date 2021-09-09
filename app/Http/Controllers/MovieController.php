@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use phpDocumentor\Reflection\Types\Float_;
+use Similarity;
 
 class MovieController extends Controller
 {
@@ -50,9 +51,10 @@ class MovieController extends Controller
             'user_id' => 'required',
             'movie_type_id' => 'required',
             'movie_name' => 'required',
-            'movie_genre' => 'required'
+            'movie_genre' => 'required',
+            'score' => 'required'
         ]);
-
+        // dd($request->score);
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
@@ -63,15 +65,12 @@ class MovieController extends Controller
             $watchlist->cover_photo = $request->movie_img_url;
             $watchlist->movie_type_id = $request->movie_type_id;
             $watchlist->user_id = $request->user_id;
-            $watchlist->save();
-
-            $genre = new MovieGenres();
+            $watchlist->rating = $request->score;
             foreach ($request->movie_genre as $genrerequest) {
-                $genre->genre = $genrerequest;
-                $genre->movie_id = $watchlist->id;
-                $genre->user_id = Auth::id();
+            $watchlist->genre =  $genrerequest;
             }
-            $genre->save();
+            $watchlist->movie_id = $request->movieID;
+            $watchlist->save();
             return redirect()->back()->with('success', 'Successfully added movie in your watchlist!');
         }
     }
@@ -129,30 +128,12 @@ class MovieController extends Controller
 
     public function exploreMovie()
     {
-
-
-        $genres = MovieGenres::select('genre')->where('user_id', Auth::id())->get()->pluck('genre')->toArray();
-        $genreArray = myArrayFunc($genres);
-        $arrGenre = implode(",", $genreArray);
-        $user_id = DB::select('select  distinct user_id from movie_genres where user_id !=' . Auth::id() . ' and genre IN (' . $arrGenre . ')');
-        for ($j = 0; $j < sizeof($user_id); $j++) {
-            $similarMovieGenres = DB::select('select genre, user_id from movie_genres where user_id =' . $user_id[$j]->user_id . ' and genre IN (' . $arrGenre . ')');
-
-            for ($i = 0; $i < sizeof($similarMovieGenres); $i++) {
-                $getGenre[$i] =  $similarMovieGenres[$i]->genre;
-            }
-            $create_array[$j] = array(
-                'user_id' => $user_id[$j]->user_id,
-                'genres' => $getGenre
-            );
+        $movie =  Watchlist::where('user_id', Auth::id())->get()->toArray();
+        $movies = Watchlist::where('user_id','!=',Auth::id())->get()->toArray();
+        $movies_alike = getNeighbors($movie[0],$movies, 2);
+        for ($i=0; $i < sizeof($movies_alike); $i++) { 
+            $user = User::where('id', $movies_alike[$i]['user_id'])->first();
         }
-
-        $get_alike_genre_movies = explore_alike_genre($create_array);
-        for ($i=0; $i < sizeof($get_alike_genre_movies); $i++) {
-            $client = new Client();
-            $res[$i] = $client->get('http://api.tvmaze.com/search/shows?q=' . $get_alike_genre_movies[$i]);
-            $movies_alike[$i] = json_decode($res[$i]->getBody());
-        }
-        return view('site.explore', compact('movies_alike'));
+        return view('site.explore', compact('movies_alike','user'));
     }
 }

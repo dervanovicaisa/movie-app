@@ -20,7 +20,7 @@
                         <div class="movie-description">
                             <div class="text">
                                 <p id="moviename" class="moviename"><b>{{ $watchlist->movie_name }}</b></p>
-                                <h6 class="genre">{{ $watchlist->gender }}</h6>
+                                <h6 class="genre">{{ $watchlist->genre }}</h6>
                             </div>
                         </div>
                     </a>
@@ -44,7 +44,7 @@
                         <div class="movie-description">
                             <div class="text">
                                 <p id="moviename" class="moviename"><b>{{ $watchlist->movie_name }}</b></p>
-                                <h6 class="genre">{{ $watchlist->gender }}</h6>
+                                <h6 class="genre">{{ $watchlist->genre }}</h6>
                             </div>
                         </div>
                     </a>
@@ -68,7 +68,7 @@
                         <div class="movie-description">
                             <div class="text">
                                 <p id="moviename" class="moviename"><b>{{ $watchlist->movie_name }}</b></p>
-                                <h6 class="genre">{{ $watchlist->gender }}</h6>
+                                <h6 class="genre">{{ $watchlist->genre }}</h6>
                             </div>
                         </div>
                     </a>
@@ -92,7 +92,7 @@
                         <div class="movie-description">
                             <div class="text">
                                 <p id="moviename" class="moviename"><b>{{ $watchlist->movie_name }}</b></p>
-                                <h6 class="genre">{{ $watchlist->gender }}</h6>
+                                <h6 class="genre">{{ $watchlist->genre }}</h6>
                             </div>
                         </div>
                     </a>

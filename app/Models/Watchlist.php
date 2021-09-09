@@ -11,14 +11,12 @@ class Watchlist extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function movie_type(){
-        return $this->hasOne(MovieType::class);
+    public function movie_type()
+    {
+        return $this->belongsTo(MovieType::class, 'movie_type_id');
     }
-    public function genres(){
-        // return  MovieGenres::where('user_id', Auth::id())->get();
-        return $this->belongsToMany(MovieGenres::class);
-    }
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

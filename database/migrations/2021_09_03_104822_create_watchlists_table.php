@@ -17,6 +17,9 @@ class CreateWatchlistsTable extends Migration
             $table->id();
             $table->string('movie_name')->nullable();
             $table->string('cover_photo')->nullable();
+            $table->string('genre')->nullable();
+            $table->string('movie_id')->nullable();
+            $table->double('rating');
             $table->unsignedBigInteger('movie_type_id')->unsigned();
             $table->unsignedBigInteger('user_id')->unsigned();
             $table->foreign('movie_type_id')->references('id')->on('movie_types')
@@ -36,6 +39,6 @@ class CreateWatchlistsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('watchlist');
+        Schema::dropIfExists('watchlists');
     }
 }

@@ -1,63 +1,53 @@
 <?php
 
-use App\Models\MovieGenres;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
-function explore_alike_genre(array $a)
-{
-    $user = MovieGenres::where('user_id', Auth::id())->get()->pluck('genre')->toArray();
-    $distance = [];
-    for ($i = 0; $i < sizeof(getSameGenre($a)); $i++) {
-        $result[$i] = eucDistanceFormula(getSameGenre($a)[$i],   array_count_values($user));
-        $distance[$i] = array(
-            'distance' => $result[$i],
-            'genre' => getSameGenre($a)[$i]
-        );
-    }
-    for ($i = 0; $i < sizeof($distance); $i++) {
-        if (min($result) == $distance[$i]['distance']) {
-            $new_array =  array_keys($distance[$i]['genre']);
 
-        }
+class Similarity {
+
+	static function dot_product($a, $b) {
+		$products = array_map(function($a, $b) {
+			return $a * $b;
+		}, $a, $b);
+		return array_reduce($products, function($a, $b) {
+			return $a + $b;
+		});
+	}
+	static function magnitude($point) {
+		$squares = array_map(function($x) {
+			return pow($x, 2);
+		}, $point);
+		return sqrt(array_reduce($squares, function($a, $b) {
+			return $a + $b;
+		}));
+	}
+	static public function cosine($a, $b) {
+    $a = array_fill_keys($a, 1);
+    $b = array_fill_keys($b, 1);
+		ksort($a);
+		ksort($b);
+		return self::dot_product($a, $b) / (self::magnitude($a) * self::magnitude($b)); 
+	}
+} 
+
+
+
+function getNeighbors($movieUserID,$movieUsers, $k){
+
+    $distances = [];
+    foreach ($movieUsers as $key => $movie) {
+        $dist = computeDistance($movieUserID,$movieUsers[$key]);
+        $distances[] = [$movie, $dist];
     }
-    // dd($new_array);
-    return $new_array;
+    sort($distances);
+    $neighbors = [];
+    for ($i=0; $i < $k ; $i++) { 
+        $neighbors[] = $distances[$i][0];
+    }
+    return $neighbors;
 }
-
-
-function getSameGenre(array $a)
-{
-    for ($i = 0; $i < sizeof($a); $i++) {
-
-        $getArrayOfGenre[$i] = array_count_values($a[$i]['genres']);
-    }
-    return $getArrayOfGenre;
-}
-
-function eucDistanceFormula(array $a, array $b)
-{
-
-    // $a = array_intersect_key($a, $b); 
-    // $b = array_intersect_key($b, $a);
-
-
-    return
-        array_sum(
-            array_map(
-                function ($x, $y) {
-                    return abs($x - $y) ** 2;
-                },
-                $a,
-                $b
-            )
-        ) ** (1 / 2);
-}
-
-function  myArrayFunc($arr)
-{
-    $newArray =  array();
-    for ($i = 0; $i < sizeof($arr); $i++) {
-        $newArray[$i] =   '"' . $arr[$i] . '"';
-    }
-    return $newArray;
+function computeDistance($a,$b){
+    $genreDistance = Similarity::cosine($a,$b);
+    return $genreDistance;
 }

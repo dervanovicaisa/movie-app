@@ -1,33 +1,31 @@
 @extends('app')
 @section('content')
     <div class="container pt">
+        <h4 class="p-5">Movies recommendation from {{ $user->name }}</h4>
         <div class="row mt centered">
             @if (is_array($movies_alike) || is_object($movies_alike))
-                @forelse ($movies_alike as $m)
-                    @foreach ($m as $movie)
+                @forelse ($movies_alike as $key=>$movie)
+                    <div class="col-lg-4 movie_id movies" style="margin-bottom: 3%;">
+                        <a class="zoom green  img__wrap" id="movie_id"
+                            href="{{ route('movie.show', $movie['movie_id']) }}">
+                            <div class="img__wrap">
+                                @isset($movie['cover_photo'])
+                                    <img class="img-responsive" src="{{ $movie['cover_photo'] }}" />
+                                @endisset
+                                <div class="movie-description">
+                                    <div class="text">
+                                        <p id="moviename" class="moviename">
+                                            <b>{{ $movie['movie_name'] }}</b>
+                                        </p>
+                                        @if (isset($movie['genre']))
+                                            <h6 class="genre">{{ $movie['genre'] }}</h6>
+                                        @endif
 
-                        <div class="col-lg-4 movie_id movies" style="margin-bottom: 3%;">
-                            <a class="zoom green  img__wrap" id="movie_id"
-                                href="{{ route('movie.show', $movie->show->id) }}">
-                                <div class="img__wrap">
-                                    <img class="img-responsive" src="{{ $movie->show->image->original }}" />
-                                    <div class="movie-description">
-                                        <div class="text">
-                                            <p id="moviename" class="moviename">
-                                                <b>{{ $movie->show->name }}</b>
-                                            </p>
-                                            @if (isset($movie->show->genres))
-                                                @foreach ($movie->show->genres as $key => $value)
-                                                    <h6 class="genre">{{ $value }}</h6>
-                                                @endforeach
-                                            @endif
-
-                                        </div>
                                     </div>
                                 </div>
-                            </a>
-                        </div>
-                    @endforeach
+                            </div>
+                        </a>
+                    </div>
                 @empty
                     <div>
                         Empty
