@@ -3,7 +3,7 @@
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
-
+// https://github.com/mlwmlw/php-cosine-similarity
 class Similarity {
 
 	static function dot_product($a, $b) {
