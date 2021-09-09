@@ -130,6 +130,7 @@ class MovieController extends Controller
     {
         $movie =  Watchlist::where('user_id', Auth::id())->get()->toArray();
         $movies = Watchlist::where('user_id','!=',Auth::id())->get()->toArray();
+    //    u helepers.php se nalazi metoda getNeighbors
         $movies_alike = getNeighbors($movie[0],$movies, 2);
         for ($i=0; $i < sizeof($movies_alike); $i++) { 
             $user = User::where('id', $movies_alike[$i]['user_id'])->first();
