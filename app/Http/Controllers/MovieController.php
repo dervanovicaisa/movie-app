@@ -67,7 +67,7 @@ class MovieController extends Controller
             $watchlist->user_id = $request->user_id;
             $watchlist->rating = $request->score;
             foreach ($request->movie_genre as $genrerequest) {
-            $watchlist->genre =  $genrerequest;
+                $watchlist->genre =  $genrerequest;
             }
             $watchlist->movie_id = $request->movieID;
             $watchlist->save();
@@ -129,12 +129,20 @@ class MovieController extends Controller
     public function exploreMovie()
     {
         $movie =  Watchlist::where('user_id', Auth::id())->get()->toArray();
-        $movies = Watchlist::where('user_id','!=',Auth::id())->get()->toArray();
-    //    u helepers.php se nalazi metoda getNeighbors
-        $movies_alike = getNeighbors($movie[0],$movies, 2);
-        for ($i=0; $i < sizeof($movies_alike); $i++) { 
+        $movies = Watchlist::where('user_id', '!=', Auth::id())->get()->toArray();
+        $k = array(sqrt(count($movies)));
+        for ($i = 0; $i < sizeof($k); $i++) {
+            if (round($k[$i]) % 2 != 0) {
+                $k_no = array(round($k[$i]));
+            } else {
+                $k_no = array(round($k[$i]) / 2);
+            }
+        }
+        //    u helepers.php se nalazi metoda getNeighbors
+        $movies_alike = getNeighbors($movie[0], $movies, max($k_no));
+        for ($i = 0; $i < sizeof($movies_alike); $i++) {
             $user = User::where('id', $movies_alike[$i]['user_id'])->first();
         }
-        return view('site.explore', compact('movies_alike','user'));
+        return view('site.explore', compact('movies_alike', 'user'));
     }
 }
