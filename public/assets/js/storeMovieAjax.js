@@ -1,10 +1,9 @@
 $(".movie_id").each(function() {
     let movie_id = $(this).attr("value");
-    $(".mark[value='" + movie_id + "']").on("change", function() {
+    $(".submit[value='" + movie_id + "']").on("click", function() {
         let movieid =  $(this).attr("value");
-        // console.log(movieid);
+        console.log(movieid);
         let user_id = $(".user_id").attr("value");
-        let movie_type_id = $(this).val();
         let movie_img_url = $(".img-responsive[value='" + movie_id + "']").attr(
             "src"
         );
@@ -21,7 +20,6 @@ $(".movie_id").each(function() {
             url: "/movie",
             data: {
                 user_id: user_id,
-                movie_type_id: movie_type_id,
                 movie_img_url: movie_img_url,
                 movie_name: movie_name,
                 movie_genre: movie_genre,
@@ -30,6 +28,7 @@ $(".movie_id").each(function() {
             },
             dataType: "text",
             success: function(msg) {
+                alert('Movie is added!');
                 console.log("date successfull sended!" + "\nMessage: " + msg);
             }
         });

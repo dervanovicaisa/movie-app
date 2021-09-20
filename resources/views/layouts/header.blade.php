@@ -11,10 +11,7 @@
 
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-
-                <li><a href="{{route('movie.store')}}">Watchlist</a></li>
                 <li><a href="{{route('user.profile')}}">Profile</a></li>
-                <li><a href="{{route('movie.explore')}}">Explore</a></li>
             </ul>
         </div>
     </div>

@@ -20,7 +20,7 @@ h5,
 h6 {
     font-family: "Montserrat", sans-serif;
     font-weight: 700;
-    color: #333;
+    color: #546e54 !important;
 }
 
 h1 {
@@ -33,6 +33,7 @@ p {
     line-height: 28px;
     margin-bottom: 25px;
     font-size: 16px;
+    color: #a94442 !important;
 }
 
 .centered {
@@ -40,7 +41,7 @@ p {
 }
 
 a {
-    color: #1abc9c;
+    color: #0d4b36 !important;
     word-wrap: break-word;
 
     -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
@@ -52,18 +53,18 @@ a {
 
 a:hover,
 a:focus {
-    color: #7b7b7b;
+    color: #7b7b7b !important;
     text-decoration: none;
     outline: 0;
 }
 
 a:before,
 a:after {
-    -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -ms-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -o-transition: color 0.1s ease-in, background 0.1s ease-in;
-    transition: color 0.1s ease-in, background 0.1s ease-in;
+    -webkit-transition: color 0.1s ease-in, background 0.1s ease-in !important;
+    -moz-transition: color 0.1s ease-in, background 0.1s ease-in !important;
+    -ms-transition: color 0.1s ease-in, background 0.1s ease-in !important;
+    -o-transition: color 0.1s ease-in, background 0.1s ease-in !important;
+    transition: color 0.1s ease-in, background 0.1s ease-in !important;
 }
 
 hr {
@@ -81,13 +82,14 @@ hr {
 }
 
 .navbar-inverse {
-    padding-bottom: 70px;
-    padding-top: 70px;
+    padding-bottom: 20px;
+    padding-top: 20px;
 }
 
+
 .navbar-inverse {
-    background-color: #1abc9c;
-    border-color: #16a085;
+    background-color: #9cd89c !important;
+    border-color: #9cd89c !important;
 }
 
 .navbar-inverse .navbar-nav > li > a {
@@ -190,21 +192,10 @@ bt {
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgb(97 101 103 / 72%);
-    color: white;
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity .2s, visibility .2s;
+    color: black;
   }
 
-.img__wrap:hover .movie-description {
-	visibility: visible !important;
-	opacity: 1 !important;
-	border: #1abc9c 2.4px solid;
-  }
-.text{
-	
-	height: 100%;
-    width: 100%;
-    padding-top: 50%;
+.img-responsive{
+    max-width: 65% !important;
+    padding: 10px;
 }

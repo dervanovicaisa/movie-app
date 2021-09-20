@@ -1,93 +1,93 @@
 @extends('app')
 @section('content')
-
     <div class="container pt">
         <div class="w-100">
             <input class="w-100" type="search" name="search" id="search" placeholder=" Movie name...">
         </div>
-        <div class="row mt centered movieslist">
-            @forelse ($movies as $movie)
-
-                <input type="text" value="{{ Auth::id() }}" class="user_id" hidden>
-                <div class="col-lg-4 movie_id movies" style="margin-bottom: 3%;"
-                    value="{{ isset($movie->id) ? $movie->id : 1 }}" name="movie_id">
-                    <div style="margin-bottom: 3%;">
-                        <select name="mark" id="mark" class="mark"
-                            value="{{ isset($movie->id) ? $movie->id : 1 }}">
-                            <option class="movie_type" value="choose">
-                                choose a type...
-                            </option>
-                            @foreach ($movie_type as $mt)
-                                <option value="{{ $mt->id }}" class="movie_type"
-                                    value="{{ isset($movie->id) ? $movie->id : 1 }}">
-                                    {{ $mt->type }}</option>
-                            @endforeach
-                        </select>
+        <div class="row-lg-6">
+            <div class="col-lg-6 movieslist" style="border-right: 1px solid;"> 
+                <h4>All movies</h4>
+                @foreach ($movies as $movie)
+                    <div class="col-lg-5 user_id" value="{{Auth::id()}}">
+                        @if (isset($movie->image))
+                            <img src="{{ $movie->image->original }}" class="img-responsive"
+                                value="{{ isset($movie->id) ? $movie->id : 1 }}">
+                        @elseif(isset($movie->show->image))
+                            <img class="img-responsive" src="{{ $movie->show->image->original }}"
+                                value="{{ isset($movie->id) ? $movie->id : 1 }}" />
+                        @endif
                     </div>
-                    <a class="zoom green  img__wrap" id="movie_id"
-                        href="{{ route('movie.show', isset($movie->id) ? $movie->id : 1) }}">
-                        <div class="img__wrap">
+                    <div class="movie-description col-lg-7 movie_id" style="height: 30vh;" value="{{ isset($movie->id) ? $movie->id : 1 }}" >
 
-                            @if (isset($movie->image) && $movie->image != null && !empty($movie->image))
+                        <p id="moviename" class="moviename" value="{{ isset($movie->id) ? $movie->id : 1 }}">
+                            @if (isset($movie->name))
+                                <b>{{ $movie->name }}</b>
+                            @else
+                                <b>{{ $movie->show->name }}</b>
 
-                                <img class="img-responsive" src="{{ $movie->image->original }}"
-                                    value="{{ isset($movie->id) ? $movie->id : 1 }}" />
-                            @elseif($movie->show->image != null && !empty($movie->show->image) )
-                                <img class="img-responsive" src="{{ $movie->show->image->original }}"
-                                    value="{{ isset($movie->id) ? $movie->id : 1 }}" />
                             @endif
-                            <div class="movie-description">
-                                <div class="text">
-                                    <p id="moviename" class="moviename"
-                                        value="{{ isset($movie->id) ? $movie->id : 1 }}">
-                                        @if (isset($movie->name))
-                                            <b>{{ $movie->name }}</b>
-                                        @else
-                                            <b>{{ $movie->show->name }}</b>
+                        </p>
+                        @if (isset($movie->genres))
 
-                                        @endif
-                                    </p>
-                                    @if (isset($movie->genres))
+                            @foreach ($movie->genres as $genre)
+                                <h6 class="genre" name="genre" value="{{ isset($movie->id) ? $movie->id : 1 }}">
+                                    {{ $genre }} </h6>
+                            @endforeach
+                        @else
+                            @foreach ($movie->show->genres as $genre)
+                                <h6 class="genre" name="genre"
+                                    value="{{ isset($movie->show->id) ? $movie->show->id : 1 }}">
+                                    {{ $genre }} </h6>
+                            @endforeach
+                        @endif
+                        @if (isset($movie->rating->average))
+                            <h4 name="score" class="score" value="{{ isset($movie->id) ? $movie->id : 1 }}">
+                                {{ $movie->rating->average }}</h4>
+                        @elseif(isset($movie->show->rating->average))
+                            <h4 name="score" class="score"
+                                value="{{ isset($movie->show->id) ? $movie->show->id : 1 }}">
+                                @if (!empty($movie->show->rating->average) || $movie->show->rating->average != null)
+                                    {{ $movie->show->rating->average }}
+                                @endif
+                            </h4>
 
-                                        @foreach ($movie->genres as $genre)
-                                            <h6 class="genre" name="genre"
-                                                value="{{ isset($movie->id) ? $movie->id : 1 }}">
-                                                {{ $genre }} </h6>
-                                        @endforeach
-                                    @else
-                                        @foreach ($movie->show->genres as $genre)
-                                            <h6 class="genre" name="genre"
-                                                value="{{ isset($movie->show->id) ? $movie->show->id : 1 }}">
-                                                {{ $genre }} </h6>
-                                        @endforeach
-                                    @endif
-                                    @if (isset($movie->rating->average))
-                                        <h4 name="score" class="score"
-                                            value="{{ isset($movie->id) ? $movie->id : 1 }}">
-                                            {{ $movie->rating->average }}</h4>
-                                    @elseif(isset($movie->show->rating->average))
-                                        <h4 name="score" class="score"
-                                            value="{{ isset($movie->show->id) ? $movie->show->id : 1 }}">
-                                            @if(!empty($movie->show->rating->average) || $movie->show->rating->average!=null )
-                                            {{ $movie->show->rating->average }}
-                                            @endif
-                                        </h4>
-
-                                    @endif
-                                </div>
-                            </div>
-                    </a>
-                </div>
-        </div>
-    @empty
-        <div class="text-center">
-            <div>
-                <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_GlZGOi.json" background="transparent"
-                    speed="1" style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+                        @endif
+                        <button type="submit" name="submit" class="submit" value="{{ isset($movie->id) ? $movie->id : 1 }}">Add to watchlist</button>
+                    </div>
+                @endforeach
             </div>
         </div>
-        @endforelse
-    </div>
+        <div class="row-lg-6">
+            <div class="col-lg-3">
+                <h4>Watchlist</h4>
+                @foreach ($watchlists as $watchlist)
+                    <p id="moviename" class="moviename"><b>{{ $watchlist->movie_name }}</b></p>
+                    <h6 class="genre">{{ $watchlist->genre }}</h6>
+                @endforeach
+
+            </div>
+            <div class="col-lg-3" style="border-left: 1px solid;">
+                <h4>Recommended by <span style="color: orangered;"> @isset($user->name) {{ $user->name }} @endisset </span> </h4>
+                <div>
+                    @if(isset($movies_alike) && !empty($movies_alike))
+                    @forelse ($movies_alike as $key=>$movie)
+                        <a id="movie_id" href="{{ route('movie.show', $movie['movie_id']) }}">
+                            <p id="moviename" class="moviename">
+                                <b style="color: #a94442">{{ $movie['movie_name'] }}</b>
+                            </p>
+                            @if (isset($movie['genre']))
+                                <h6 class="genre" style="color:#a94442;">{{ $movie['genre'] }}</h6>
+                            @endif
+                        </a>
+                    @empty
+                        <div>
+                            Empty
+                        </div>
+                    @endforelse
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script src="assets/js/storeMovieAjax.js"></script>

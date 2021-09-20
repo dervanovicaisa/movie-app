@@ -24,8 +24,7 @@ class MovieController extends Controller
      */
     public function index()
     {
-        $watchlists = Watchlist::where('user_id', Auth::id())->get();
-        return view('site.watchlist', compact('watchlists'));
+
     }
 
     /**
@@ -46,10 +45,9 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-
+        
         $validator = Validator::make($request->all(), [
             'user_id' => 'required',
-            'movie_type_id' => 'required',
             'movie_name' => 'required',
             'movie_genre' => 'required',
             'score' => 'required'
@@ -57,13 +55,12 @@ class MovieController extends Controller
         // dd($request->score);
         if ($validator->fails()) {
             return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+            ->withErrors($validator)
+            ->withInput();
         } else {
             $watchlist = new Watchlist();
             $watchlist->movie_name = $request->movie_name;
             $watchlist->cover_photo = $request->movie_img_url;
-            $watchlist->movie_type_id = $request->movie_type_id;
             $watchlist->user_id = $request->user_id;
             $watchlist->rating = $request->score;
             foreach ($request->movie_genre as $genrerequest) {
@@ -74,7 +71,7 @@ class MovieController extends Controller
             return redirect()->back()->with('success', 'Successfully added movie in your watchlist!');
         }
     }
-
+    
     /**
      * Display the specified resource.
      *
@@ -124,25 +121,4 @@ class MovieController extends Controller
         //
     }
 
-
-
-    public function exploreMovie()
-    {
-        $movie =  Watchlist::where('user_id', Auth::id())->get()->toArray();
-        $movies = Watchlist::where('user_id', '!=', Auth::id())->get()->toArray();
-        $k = array(sqrt(count($movies)));
-        for ($i = 0; $i < sizeof($k); $i++) {
-            if (round($k[$i]) % 2 != 0) {
-                $k_no = array(round($k[$i]));
-            } else {
-                $k_no = array(round($k[$i]) / 2);
-            }
-        }
-        //    u helepers.php se nalazi metoda getNeighbors
-        $movies_alike = getNeighbors($movie[0], $movies, max($k_no));
-        for ($i = 0; $i < sizeof($movies_alike); $i++) {
-            $user = User::where('id', $movies_alike[$i]['user_id'])->first();
-        }
-        return view('site.explore', compact('movies_alike', 'user'));
-    }
 }

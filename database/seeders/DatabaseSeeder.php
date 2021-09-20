@@ -18,30 +18,6 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        MovieType::create([
-
-            'type' => 'watched'
-        ]);
-
-        MovieType::create(
-            [
-                'type' => 'not finished'
-            ],
-
-        );
-
-        MovieType::create(
-            [
-                'type' => 'want to watch'
-            ]
-        );
-
-        MovieType::create(
-            [
-                'type' => 'watching'
-            ]
-
-        );
         User::create([
             'name' => 'user',
             'email' => 'user@user.com',

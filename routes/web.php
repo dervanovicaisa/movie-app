@@ -24,8 +24,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/search', [HomeController::class, 'search']);
 Route::resource('movie', MovieController::class);
-Route::get('/movies/explore', [MovieController::class, 'exploreMovie'])->name('movie.explore');
+Route::get('/search', [HomeController::class, 'search']);
 Route::get('/profile', [UserController::class, 'index'])->name('user.profile');
 Route::get('/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+// Route::resource('/movie', MovieController::class);
