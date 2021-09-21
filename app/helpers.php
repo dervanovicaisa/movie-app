@@ -52,7 +52,6 @@ function getNeighbors($movieUserID, $movieUsers, $k)
 			}
 		}
 	}
-
 	$neighbors = [];
 	for ($i = 0; $i < $k; $i++) {
 		$neighbors[] = $distances[$i][0];

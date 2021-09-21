@@ -68,6 +68,7 @@ class HomeController extends Controller
     {
         $users = User::where('id', '!=', Auth::id())->get();
         $user = User::where('id', Auth::id())->get();
+        $getMovieName =  Watchlist::select('movie_name')->where('user_id', Auth::id())->get()->toArray();
         foreach ($user  as $key => $value) {
             if ($value->id == Auth::id()) {
                 $movie[$key] = array(Watchlist::where('user_id', $value->id)->get()->toArray());
@@ -75,23 +76,13 @@ class HomeController extends Controller
         }
         foreach ($users as $key => $value) {
             if ($value->id != Auth::id()) {
-                $movies[$key] = array(Watchlist::where('user_id', '=', $value->id)->get()->toArray());
+                $movies[$key] = array(Watchlist::where('user_id', '=', $value->id)->whereNotIn('movie_name', $getMovieName)->get()->toArray());
             }
         }
-        // $wat = Watchlist::where('user_id', '!=', Auth::id())->get()->toArray();
-        // $count = count($wat);
         $k = 1;
 
-        // for ($i = 0; $i < sizeof($k); $i++) {
-        //     if (round($k[$i]) % 2 != 0) {
-        //         $k_no = array(round($k[$i]));
-        //     } else {
-        //         $k_no = array(round($k[$i])-1);
-        //     }
-        // }
         //  u helepers.php se nalazi metoda getNeighbors
         return getNeighbors($movie[0], $movies, $k);
     }
-
-    
 }
+// 

@@ -6,7 +6,7 @@
         </div>
         <div class="row-lg-6">
             <div class="col-lg-6 movieslist" style="border-right: 1px solid;"> 
-                <h4>All movies</h4>
+                <h4>All movies / TV Shows</h4>
                 @foreach ($movies as $movie)
                     <div class="col-lg-5 user_id" value="{{Auth::id()}}">
                         @if (isset($movie->image))
