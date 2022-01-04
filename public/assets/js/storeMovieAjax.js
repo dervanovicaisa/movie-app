@@ -2,7 +2,7 @@ $(".movie_id").each(function() {
     let movie_id = $(this).attr("value");
     $(".submit[value='" + movie_id + "']").on("click", function() {
         let movieid =  $(this).attr("value");
-        console.log(movieid);
+        // console.log(movieid);
         let user_id = $(".user_id").attr("value");
         let movie_img_url = $(".img-responsive[value='" + movie_id + "']").attr(
             "src"

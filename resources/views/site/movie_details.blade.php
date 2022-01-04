@@ -37,7 +37,7 @@
                     </div>
                     <div class="col-lg-12">
                         <h4>Plot</h4>
-                        <p>{{ $movie_details->summary }}</p>
+                        <p>  {{ strip_tags($movie_details->summary) }}</p>
                         <br>
                     </div>
                 </div>

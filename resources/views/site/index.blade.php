@@ -63,6 +63,7 @@
                 @foreach ($watchlists as $watchlist)
                     <p id="moviename" class="moviename"><b>{{ $watchlist->movie_name }}</b></p>
                     <h6 class="genre">{{ $watchlist->genre }}</h6>
+                    <h6 class="score" style="color:#a94442;">{{ $watchlist->rating }}</h6>
                 @endforeach
 
             </div>
@@ -78,6 +79,7 @@
                             @if (isset($movie['genre']))
                                 <h6 class="genre" style="color:#a94442;">{{ $movie['genre'] }}</h6>
                             @endif
+                            <h6 class="score" style="color:#a94442;">{{ $movie['rating'] }}</h6>
                         </a>
                     @empty
                         <div>
